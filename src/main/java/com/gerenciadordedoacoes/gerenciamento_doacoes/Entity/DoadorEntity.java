@@ -2,8 +2,12 @@ package com.gerenciadordedoacoes.gerenciamento_doacoes.Entity;
 
 import jakarta.persistence.*;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class DoadorEntity {
 
     @Id
@@ -14,15 +18,18 @@ public class DoadorEntity {
     private String email;
     private String senha;
     private String telefone;
-    private String endereco;
     private String cpf;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id")
+    private EnderecoEntity endereco;
+
     @OneToMany(mappedBy = "doador")
+    @JsonIgnore // Evita ciclo infinito
     private List<DoacaoEntity> doacoes;
 
     public DoadorEntity() {}
 
-    // Getters e Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -38,11 +45,11 @@ public class DoadorEntity {
     public String getTelefone() { return telefone; }
     public void setTelefone(String telefone) { this.telefone = telefone; }
 
-    public String getEndereco() { return endereco; }
-    public void setEndereco(String endereco) { this.endereco = endereco; }
-
     public String getCpf() { return cpf; }
     public void setCpf(String cpf) { this.cpf = cpf; }
+
+    public EnderecoEntity getEndereco() { return endereco; }
+    public void setEndereco(EnderecoEntity endereco) { this.endereco = endereco; }
 
     public List<DoacaoEntity> getDoacoes() { return doacoes; }
     public void setDoacoes(List<DoacaoEntity> doacoes) { this.doacoes = doacoes; }

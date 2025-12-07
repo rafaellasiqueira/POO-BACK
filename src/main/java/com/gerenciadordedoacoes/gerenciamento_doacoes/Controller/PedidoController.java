@@ -5,6 +5,7 @@ import com.gerenciadordedoacoes.gerenciamento_doacoes.Entity.InstituicaoEntity;
 import com.gerenciadordedoacoes.gerenciamento_doacoes.Service.PedidoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -30,5 +31,15 @@ public class PedidoController {
     @PostMapping("/listInstituicao")
     public ResponseEntity<List<PedidoEntity>> listarPorInstituicao(@RequestBody InstituicaoEntity instituicao) {
         return ResponseEntity.ok(pedidoService.listarPedidosPorInstituicao(instituicao));
+    }
+
+    @GetMapping("/list/{id}")
+    public ResponseEntity<PedidoEntity> getPedidoById(@PathVariable Long id) {
+        PedidoEntity pedido = pedidoService.buscarPorId(id);
+        if (pedido != null) {
+            return ResponseEntity.ok(pedido);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

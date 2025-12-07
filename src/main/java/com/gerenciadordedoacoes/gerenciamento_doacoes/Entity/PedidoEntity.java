@@ -1,15 +1,18 @@
 package com.gerenciadordedoacoes.gerenciamento_doacoes.Entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class PedidoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tipoItem; // roupas, alimentos, higiene
+    private String tipoItem;
     private Integer quantidade;
     private String descricao;
 
@@ -18,7 +21,6 @@ public class PedidoEntity {
 
     public PedidoEntity() {}
 
-    // Getters e Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

@@ -1,5 +1,6 @@
 package com.gerenciadordedoacoes.gerenciamento_doacoes.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -14,15 +15,19 @@ public class InstituicaoEntity {
     private String email;
     private String senha;
     private String telefone;
-    private String endereco;
     private String cnpj;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id")
+    private EnderecoEntity endereco;
+
     @OneToMany(mappedBy = "instituicao")
+    @JsonIgnore
     private List<PedidoEntity> pedidos;
 
     public InstituicaoEntity() {}
 
-    // Getters e Setters
+    // GETTERS & SETTERS
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -38,11 +43,11 @@ public class InstituicaoEntity {
     public String getTelefone() { return telefone; }
     public void setTelefone(String telefone) { this.telefone = telefone; }
 
-    public String getEndereco() { return endereco; }
-    public void setEndereco(String endereco) { this.endereco = endereco; }
-
     public String getCnpj() { return cnpj; }
     public void setCnpj(String cnpj) { this.cnpj = cnpj; }
+
+    public EnderecoEntity getEndereco() { return endereco; }
+    public void setEndereco(EnderecoEntity endereco) { this.endereco = endereco; }
 
     public List<PedidoEntity> getPedidos() { return pedidos; }
     public void setPedidos(List<PedidoEntity> pedidos) { this.pedidos = pedidos; }

@@ -26,4 +26,14 @@ public class DoadorService {
     public DoadorEntity atualizar(DoadorEntity doador) {
         return doadorRepository.save(doador);
     }
+
+    public void excluir(Long id) {
+        doadorRepository.deleteById(id);
+    }
+
+    public Optional<DoadorEntity> buscarPorId(Long id) {
+        return doadorRepository.findById(id);
+    }
+
+
 }

@@ -1,11 +1,24 @@
 package com.gerenciadordedoacoes.gerenciamento_doacoes.Repository;
 
 import com.gerenciadordedoacoes.gerenciamento_doacoes.Entity.DoacaoEntity;
-import com.gerenciadordedoacoes.gerenciamento_doacoes.Entity.DoadorEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface DoacaoRepository extends JpaRepository<DoacaoEntity, Long> {
-    List<DoacaoEntity> findByDoador(DoadorEntity doador);
-    List<DoacaoEntity> findByDoadorId(Long idDoador);
+
+    @Query("SELECT d FROM DoacaoEntity d " +
+            "JOIN FETCH d.doador " +
+            "LEFT JOIN FETCH d.pedido p " +
+            "LEFT JOIN FETCH p.instituicao " +
+            "WHERE d.doador.id = :idDoador")
+    List<DoacaoEntity> findByDoadorId(@Param("idDoador") Long idDoador);
+
+    // Buscar doação específica com doador e pedido
+    @Query("SELECT d FROM DoacaoEntity d " +
+            "JOIN FETCH d.doador " +
+            "LEFT JOIN FETCH d.pedido " +
+            "WHERE d.id = :id")
+    DoacaoEntity findByIdWithDoadorAndPedido(@Param("id") Long id);
 }

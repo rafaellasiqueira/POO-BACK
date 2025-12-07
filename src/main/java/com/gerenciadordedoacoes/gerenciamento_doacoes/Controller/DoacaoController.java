@@ -1,8 +1,8 @@
 package com.gerenciadordedoacoes.gerenciamento_doacoes.Controller;
 
 import com.gerenciadordedoacoes.gerenciamento_doacoes.Entity.DoacaoEntity;
-import com.gerenciadordedoacoes.gerenciamento_doacoes.Entity.DoadorEntity;
 import com.gerenciadordedoacoes.gerenciamento_doacoes.Service.DoacaoService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -17,30 +17,25 @@ public class DoacaoController {
         this.doacaoService = doacaoService;
     }
 
-    @PostMapping("/registrar")
-    public ResponseEntity<DoacaoEntity> registrar(@RequestBody DoacaoEntity doacao) {
-        return ResponseEntity.ok(doacaoService.registrarDoacao(doacao));
+    // Registrar doação
+    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DoacaoEntity> registrarDoacao(@RequestBody DoacaoEntity doacao) {
+        DoacaoEntity salva = doacaoService.registrarDoacao(doacao);
+        return ResponseEntity.ok(salva);
     }
 
-    @PostMapping("/listDoador")
-    public ResponseEntity<List<DoacaoEntity>> listarPorDoador(@RequestBody DoadorEntity doador) {
-        return ResponseEntity.ok(doacaoService.listarDoacoesPorDoador(doador));
-    }
-
-    @GetMapping("/historico/{idDoador}")
-    public ResponseEntity<List<DoacaoEntity>> listarPorDoador(@PathVariable Long idDoador) {
-        List<DoacaoEntity> doacoes = doacaoService.listarDoacoesPorIdDoador(idDoador);
+    // Listar todas as doações de um doador pelo ID
+    @GetMapping("/list/{id}")
+    public ResponseEntity<List<DoacaoEntity>> listarPorDoador(@PathVariable Long id) {
+        List<DoacaoEntity> doacoes = doacaoService.listarDoacoesPorIdDoador(id);
         return ResponseEntity.ok(doacoes);
     }
 
-    // Método DELETE para excluir uma doação
+    // Deletar doação
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
         boolean excluido = doacaoService.excluirDoacao(id);
-        if (excluido) {
-            return ResponseEntity.noContent().build();  // 204 No Content
-        } else {
-            return ResponseEntity.notFound().build();  // 404 Not Found, caso não encontre a doação
-        }
+        return excluido ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
+
 }

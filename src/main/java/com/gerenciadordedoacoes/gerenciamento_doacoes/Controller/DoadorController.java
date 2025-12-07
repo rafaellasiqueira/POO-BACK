@@ -31,4 +31,16 @@ public class DoadorController {
     public ResponseEntity<DoadorEntity> atualizar(@RequestBody DoadorEntity doador) {
         return ResponseEntity.ok(doadorService.atualizar(doador));
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> excluirConta(@PathVariable Long id) {
+        Optional<DoadorEntity> doador = doadorService.buscarPorId(id);
+        if (doador.isPresent()) {
+            doadorService.excluir(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
