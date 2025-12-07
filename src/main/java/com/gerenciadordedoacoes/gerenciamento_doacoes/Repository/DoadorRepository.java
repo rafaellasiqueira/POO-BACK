@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface DoadorRepository extends JpaRepository<DoadorEntity, Long> {
     Optional<DoadorEntity> findByEmail(String email);
+
 }

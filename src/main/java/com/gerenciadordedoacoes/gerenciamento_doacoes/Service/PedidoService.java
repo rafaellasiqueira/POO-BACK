@@ -7,6 +7,7 @@ import com.gerenciadordedoacoes.gerenciamento_doacoes.Repository.InstituicaoRepo
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PedidoService {
@@ -48,4 +49,25 @@ public class PedidoService {
     public PedidoEntity buscarPorId(Long id) {
         return pedidoRepository.findById(id).orElse(null);
     }
+
+    public boolean deletarPedido(Long id) {
+        if(pedidoRepository.existsById(id)) {
+            pedidoRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public PedidoEntity atualizarPedido(Long id, PedidoEntity dados) {
+        Optional<PedidoEntity> optionalPedido = pedidoRepository.findById(id);
+        if(optionalPedido.isPresent()) {
+            PedidoEntity pedido = optionalPedido.get();
+            pedido.setTipoItem(dados.getTipoItem());
+            pedido.setQuantidade(dados.getQuantidade());
+            pedido.setDescricao(dados.getDescricao());
+            return pedidoRepository.save(pedido);
+        }
+        return null;
+    }
 }
+

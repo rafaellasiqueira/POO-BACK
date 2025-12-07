@@ -38,4 +38,27 @@ public class DoacaoController {
         return excluido ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
+    // Listar todas as doações de uma instituição pelo ID
+    @GetMapping("/listInstituicao/{id}")
+    public ResponseEntity<List<DoacaoEntity>> listarPorInstituicao(@PathVariable Long id) {
+        List<DoacaoEntity> doacoes = doacaoService.listarDoacoesPorInstituicao(id);
+        return ResponseEntity.ok(doacoes);
+    }
+
+    // Atualizar status de uma doação
+    @PutMapping("/updateStatus/{id}")
+    public ResponseEntity<DoacaoEntity> atualizarStatus(@PathVariable Long id, @RequestBody StatusRequest statusRequest) {
+        DoacaoEntity doacaoAtualizada = doacaoService.atualizarStatus(id, statusRequest.getStatus());
+        if (doacaoAtualizada != null) {
+            return ResponseEntity.ok(doacaoAtualizada);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    // Classe auxiliar para receber o status no corpo da requisição
+    public static class StatusRequest {
+        private String status;
+        public String getStatus() { return status; }
+        public void setStatus(String status) { this.status = status; }
+    }
 }

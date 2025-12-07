@@ -9,6 +9,7 @@ import com.gerenciadordedoacoes.gerenciamento_doacoes.Repository.PedidoRepositor
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DoacaoService {
@@ -72,4 +73,19 @@ public class DoacaoService {
         }
         return false;
     }
+
+    public List<DoacaoEntity> listarDoacoesPorInstituicao(Long instituicaoId) {
+        return doacaoRepository.findByInstituicaoId(instituicaoId);
+    }
+
+    public DoacaoEntity atualizarStatus(Long id, String novoStatus) {
+        Optional<DoacaoEntity> doacaoOpt = doacaoRepository.findById(id);
+        if (doacaoOpt.isPresent()) {
+            DoacaoEntity doacao = doacaoOpt.get();
+            doacao.setStatus(DoacaoEntity.StatusDoacao.valueOf(novoStatus));
+            return doacaoRepository.save(doacao);
+        }
+        return null;
+    }
+
 }

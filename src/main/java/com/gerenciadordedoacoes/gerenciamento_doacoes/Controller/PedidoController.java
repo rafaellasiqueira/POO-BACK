@@ -42,4 +42,20 @@ public class PedidoController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deletarPedido(@PathVariable Long id) {
+        boolean deleted = pedidoService.deletarPedido(id);
+        if (deleted) return ResponseEntity.ok().build();
+        else return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<PedidoEntity> atualizarPedido(@PathVariable Long id, @RequestBody PedidoEntity pedidoAtualizado) {
+        PedidoEntity pedido = pedidoService.atualizarPedido(id, pedidoAtualizado);
+        if(pedido != null) return ResponseEntity.ok(pedido);
+        else return ResponseEntity.notFound().build();
+    }
+
+
 }
