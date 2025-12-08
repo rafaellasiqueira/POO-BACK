@@ -43,4 +43,11 @@ public class DoadorController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<DoadorEntity> buscarPorId(@PathVariable Long id) {
+        Optional<DoadorEntity> doador = doadorService.buscarPorId(id);
+        return doador.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }

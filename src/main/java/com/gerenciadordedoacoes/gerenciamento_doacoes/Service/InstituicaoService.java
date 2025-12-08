@@ -26,4 +26,9 @@ public class InstituicaoService {
     public InstituicaoEntity atualizar(InstituicaoEntity instituicao) {
         return instituicaoRepository.save(instituicao);
     }
+
+    public Optional<InstituicaoEntity> buscarPorId(Long id) {
+        return instituicaoRepository.findById(id);
+    }
+
 }

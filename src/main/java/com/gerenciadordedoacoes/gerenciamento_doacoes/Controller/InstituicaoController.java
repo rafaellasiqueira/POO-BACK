@@ -31,4 +31,12 @@ public class InstituicaoController {
     public ResponseEntity<InstituicaoEntity> atualizar(@RequestBody InstituicaoEntity instituicao) {
         return ResponseEntity.ok(instituicaoService.atualizar(instituicao));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<InstituicaoEntity> buscarPorId(@PathVariable Long id) {
+        Optional<InstituicaoEntity> instituicao = instituicaoService.buscarPorId(id);
+        return instituicao.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }
