@@ -80,4 +80,4 @@ Este repositório contém o back-end do Sistema de Gerenciamento de Doações, u
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio-backend.git](https://github.com/rafaellasiqueira/POO-BACK/tree/master)
+git clone https://github.com/rafaellasiqueira/POO-BACK/tree/master
