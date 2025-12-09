@@ -23,13 +23,11 @@ public class PedidoService {
 
     public PedidoEntity criarPedido(PedidoEntity pedido) {
 
-        // Verificar e buscar instituição real no banco
         if (pedido.getInstituicao() != null && pedido.getInstituicao().getId() != null) {
 
             InstituicaoEntity inst = instituicaoRepository.findById(pedido.getInstituicao().getId())
                     .orElseThrow(() -> new RuntimeException("Instituição não encontrada!"));
 
-            // Substituir a instituição enviada (só com ID) pela completa do banco
             pedido.setInstituicao(inst);
         } else {
             throw new RuntimeException("É obrigatório informar o ID da instituição.");
@@ -60,12 +58,24 @@ public class PedidoService {
 
     public PedidoEntity atualizarPedido(Long id, PedidoEntity dados) {
         Optional<PedidoEntity> optionalPedido = pedidoRepository.findById(id);
-        if(optionalPedido.isPresent()) {
+
+        if (optionalPedido.isPresent()) {
             PedidoEntity pedido = optionalPedido.get();
+
             pedido.setTipoItem(dados.getTipoItem());
             pedido.setQuantidade(dados.getQuantidade());
             pedido.setDescricao(dados.getDescricao());
-            return pedidoRepository.save(pedido);
+
+            // recarrega instituição
+            InstituicaoEntity inst = instituicaoRepository
+                    .findById(dados.getInstituicao().getId())
+                    .orElseThrow(() -> new RuntimeException("Instituição não encontrada!"));
+
+            pedido.setInstituicao(inst);
+
+            PedidoEntity salvo = pedidoRepository.save(pedido);
+            salvo.setInstituicao(inst); // <- ESSA LINHA É O QUE RESOLVE
+            return salvo;
         }
         return null;
     }
