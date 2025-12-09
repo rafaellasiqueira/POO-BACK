@@ -5,7 +5,7 @@ Este repositório contém o back-end do Sistema de Gerenciamento de Doações, u
 ## Funcionalidades
 
 - **Gerenciamento de Doadores**
-  - Cadastro, login, atualização e exclusão.
+  - Cadastro, login e atualização.
   - Validação de e-mail e senha para autenticação segura.
 
 - **Gerenciamento de Instituições**
@@ -35,24 +35,25 @@ Este repositório contém o back-end do Sistema de Gerenciamento de Doações, u
 ## Endpoints Principais
 
 ### Doador
-- `POST /doador/cadastrar` → Cadastro de doador.
+- `POST /doador/add` → Cadastro de doador.
 - `POST /doador/login` → Login do doador.
 - `GET /doador/{id}` → Buscar doador por ID.
-- `PUT /doador` → Atualizar dados do doador.
-- `DELETE /doador/{id}` → Excluir doador.
+- `PUT /doador/update` → Atualizar dados do doador.
+- `DELETE /doador/delete/{id}` → Excluir doador.
 
 ### Instituição
-- `POST /instituicao/cadastrar` → Cadastro de instituição.
+- `POST /instituicao/add` → Cadastro de instituição.
 - `POST /instituicao/login` → Login da instituição.
 - `GET /instituicao/{id}` → Buscar instituição por ID.
-- `PUT /instituicao` → Atualizar dados da instituição.
+- `PUT /instituicao/update` → Atualizar dados da instituição.
 
 ### Pedido
-- `POST /pedido` → Criar pedido.
-- `GET /pedido` → Listar todos os pedidos.
-- `GET /pedido/instituicao/{id}` → Listar pedidos de uma instituição.
-- `PUT /pedido/{id}` → Atualizar pedido.
-- `DELETE /pedido/{id}` → Excluir pedido.
+- `POST /pedido/add` → Criar pedido.
+- `GET /pedido/listall` → Listar todos os pedidos.
+- `POST /pedido/listInstituicao` → Recebe uma instituição e retorna todos os pedidos dela.
+- `GET pedido/list/{id}` → Recebe um ID e retorna o pedido correspondente, ou 404 se não existir.
+- `PUT /pedido/update{id}` → Atualizar pedido.
+- `DELETE /pedido/delete{id}` → Excluir pedido.
 
 ### Doação
 - `POST /doacao/add` → Registrar doação.
